@@ -59,4 +59,22 @@ public static class AxesSelector
                 return Vector3.zero;
         }
     }
+
+    public static Vector3 ReturnVectorWithPlusPositionByAxis (Axes axis, Vector3 mainVector, float PlusPosition)
+    {
+        switch (axis)
+        {
+            case Axes.X:
+                return new Vector3(mainVector.x + PlusPosition, mainVector.y, mainVector.z);
+
+            case Axes.Y:
+                return new Vector3(mainVector.x, mainVector.y + PlusPosition, mainVector.z);
+
+            case Axes.Z:
+                return new Vector3(mainVector.x, mainVector.y, mainVector.z + PlusPosition);
+
+            default:
+                return Vector3.zero;
+        }
+    }
 }

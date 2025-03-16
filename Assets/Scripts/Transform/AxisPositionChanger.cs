@@ -4,13 +4,16 @@ using System.Collections.Generic;
 using System.Reflection;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UIElements;
 using Zenject.SpaceFighter;
 
 public class AxisPositionChanger : MonoBehaviour
 {
     #region Fields
-    [Header("Local axis of the transform."), SerializeField]
+    [Header("ChangeMovementDirection axis of the transform."), SerializeField]
     private Axes _movementAxis = Axes.X;
+    [Header("Local or global axis to movement."), SerializeField]
+    private TransformType _movementType = TransformType.Global;
     [ReadOnly, Header("Transform start position."), SerializeField]
     private Vector3 _startPosition = Vector3.zero;
     [Space(10), Header("Max axis offset."), SerializeField]
@@ -20,14 +23,24 @@ public class AxisPositionChanger : MonoBehaviour
     [ReadOnly, Header("Offset along the selected local orientation axis."), SerializeField]
     private float _axisOffset = 0f;
 
-    private Vector3 _direction = Vector3.zero;
+    private Vector3 _targetPoint = Vector3.zero;
     #endregion
 
     #region Properties
-    public float MaxAxisValue => _maxValue;
-    public float MinAxisValue => _minValue;
-    private Vector3 transformDirection => AxesSelector.ReturnVector(_movementAxis, (transform.right, transform.up, transform.forward));
-    private bool _hasParent => transform.parent != null;
+    public bool ReachMax => _axisOffset == _maxValue;
+    public bool ReachMin => _axisOffset == _minValue;
+    public float AxisOffsetChange
+    {
+        get
+        {
+            return _axisOffset;
+        }
+        set 
+        {
+            ChangeOffsetOnAxis(value); 
+        }
+    }
+    private Vector3 transformDirection => AxesSelector.ReturnVector(_movementAxis, (Vector3.right, Vector3.up, Vector3.forward));
     #endregion
 
     #region Methods
@@ -43,8 +56,21 @@ public class AxisPositionChanger : MonoBehaviour
         CalculateMovementBorders();  
     }
 
-    private void CalculateStartPosition () => _startPosition = transform.position;
-    private void SetStartPosition () => transform.position = _startPosition;
+    private void CalculateStartPosition ()
+    {
+        if (_movementType == TransformType.Local)
+            _startPosition = transform.localPosition;
+        else
+            _startPosition = transform.position;
+    }
+
+    private void SetStartPosition ()
+    {
+        if(_movementType == TransformType.Local)
+            transform.localPosition = _startPosition;
+        else
+            transform.position = _startPosition;
+    }
 
     private void CalculateMovementBorders()
     {
@@ -59,40 +85,34 @@ public class AxisPositionChanger : MonoBehaviour
             _maxValue = -_minValue;
     }
 
-    private Vector3 CalculateDirection(Vector3 target, Vector3 origin)
-    {
-        Vector3 heading = target - origin;
-        float distance = heading.magnitude;
-        Vector3 direction = heading / distance;
-        return direction;
-    }
-
-    private Vector3 CalculateTransformDirection ()
-    {
-        Vector3 localStartPoint = _hasParent ? transform.parent.InverseTransformPoint(_startPosition) : _startPosition;
-        Vector3 targetPoint = _startPosition + transformDirection;
-        Vector3 localDirection = CalculateDirection(targetPoint, _startPosition);
-        Vector3 globalDirection = _hasParent ? transform.parent.TransformPoint(localDirection) : localDirection;
-
-        return globalDirection * _axisOffset;
-    }
-
     /// <summary>
     /// Set offset to position on the axis.
     /// </summary>
     /// <param name="AxisOffset">Value between min and max values.</param>
-    public void SetPositionOffsetOnAxis(float AxisOffset)
+    private void ChangeOffsetOnAxis(float OffsetChange)
     {
-        if (AxisOffset > _maxValue || _axisOffset > _maxValue)
-            _axisOffset = _maxValue;
-        else if (AxisOffset < _minValue || _axisOffset < _minValue)
-            _axisOffset = _minValue;
-        else
-            _axisOffset = AxisOffset;
+        float changedOffset = _axisOffset + OffsetChange;
+        _axisOffset = Mathf.Clamp(changedOffset, _minValue, _maxValue);
+        Vector3 scaledDirection = transformDirection * _axisOffset;
+        Vector3 targetPoint = VectorsOperations.CalculateTarget(_startPosition, scaledDirection);
 
-        _direction = CalculateTransformDirection();
-        transform.position = _startPosition + _direction;
+        if (_movementType == TransformType.Local)
+            transform.localPosition = targetPoint;
+        else
+            transform.position = targetPoint;
     }
+
+    //private void OnDrawGizmosSelected ()
+    //{
+    //    Gizmos.color = Color.yellow;
+    //    Vector3 origin = _movementType != TransformType.Local ? _startPosition : transform.parent.HolderPoint'(_startPosition);
+    //    Vector3 scaledDirectionMax = transformDirection * _maxValue;
+    //    Vector3 maxDirectionPoint = VectorsOperations.CalculateTarget(origin, scaledDirectionMax);
+    //    Gizmos.DrawLine(origin, maxDirectionPoint);
+    //    Vector3 scaledDirectionMin = transformDirection * _minValue;
+    //    Vector3 minDirectionPoint = VectorsOperations.CalculateTarget(origin, scaledDirectionMin);
+    //    Gizmos.DrawLine(origin, minDirectionPoint);
+    //}
     #endregion
 }
 

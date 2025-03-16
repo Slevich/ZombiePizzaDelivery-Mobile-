@@ -7,6 +7,8 @@ using UnityEngine.UIElements;
 
 public class ActionInterval : ActionDelayBase
 {
+    Action _endAction;
+
     public ActionInterval() : base()
     {
         _delayAction = (action, delay) =>
@@ -25,7 +27,8 @@ public class ActionInterval : ActionDelayBase
 
         _busy = true;
         _disposable = new CompositeDisposable();
-        _delayAction(SomeAction, TimeInterval);
+        _endAction = SomeAction;
+        _delayAction(_endAction, TimeInterval);
     }
 
     protected override bool ReadyForAction (ref Action SomeAction, bool DisposeOnEnd = false)
@@ -33,12 +36,15 @@ public class ActionInterval : ActionDelayBase
         return !_busy;
     }
 
-    public void Stop()
+    public void Stop(bool InvokeOnEnd = false)
     {
         if (_busy)
         {
             _busy = false;
             Dispose();
+
+            if (InvokeOnEnd)
+                _endAction?.Invoke();
         }
         else
         {

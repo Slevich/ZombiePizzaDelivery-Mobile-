@@ -14,8 +14,12 @@ public abstract class ActionDelayBase
     protected Action<Action, float> _delayAction;
     #endregion
 
+    #region Properties
+    public bool Busy => _busy;
+    #endregion
+
     #region Constructor
-    public ActionDelayBase()
+    public ActionDelayBase ()
     {
         _delay = 0f;
         _busy = false;
