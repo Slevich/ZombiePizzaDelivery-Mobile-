@@ -23,9 +23,11 @@ public class PlayerReferencesContainer : MonoBehaviour
     [field: Space(10),Header("ChangeMovementDirection")]
     [field: SerializeField] public AxisPositionChanger PositionChanger { get; set; }
     [field: SerializeField] public AxisMover Mover { get; set; }
-    [field: Space(10), Header("Animations")]
-    [field: SerializeField] public RotationAnimationsSequences GeneralAnimations { get; set; }
-    [field: SerializeField] public RotationAroundAxisAnimation[] AxesSubanimations { get; set; }
     [field: Space(10), Header("Items system")]
     [field: SerializeField] public ItemHoldersManager HoldersManager { get; set; }
+    [field: Space(10), Header("Health system")]
+    [field: SerializeField] public Health PlayerHealth { get; set; }
+
+    [field: Space(10), Header("Supply system")]
+    [field: SerializeField] public SupplyManager SupplyManager { get; set; }
 }

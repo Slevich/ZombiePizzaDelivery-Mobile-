@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using System.Drawing;
 using System.Linq;
+using static UnityEditor.Progress;
 
 public class ItemHoldersManager : MonoBehaviour
 {
@@ -39,18 +40,21 @@ public class ItemHoldersManager : MonoBehaviour
         //_multipleObjectsMover = new MultipleObjectsMover();
     }
 
-    public void TryToGrabNewItem(ObtainableItem item)
+    public bool RespondOnGrab (ObtainableItem Item)
+    {
+        ObtainableWeapon weapon = Item as ObtainableWeapon;
+        GameObject obtainableWeapon = weapon.GrabbableWeaponItem;
+
+        return obtainableWeapon != _currentWeapon;
+    }
+
+    public void GrabNewItem(ObtainableItem item)
     {
         if (_allowedItems.Length == 0)
             return;
 
         ObtainableWeapon weapon = item as ObtainableWeapon;
         GameObject obtainableWeapon = weapon.GrabbableWeaponItem;
-        
-        if(obtainableWeapon == _currentWeapon)
-        {
-            return;
-        }
 
         _currentWeapon = obtainableWeapon;
 

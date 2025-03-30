@@ -1,0 +1,139 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &567911884151218926
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 499281861765269592, guid: 817d196f23aad9b4dbf0799729b8e19f,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 4982aab05fe85414483ae0cf273a29c5, type: 2}
+    - target: {fileID: 1287726752596474421, guid: 817d196f23aad9b4dbf0799729b8e19f,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1287726752596474421, guid: 817d196f23aad9b4dbf0799729b8e19f,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1287726752596474421, guid: 817d196f23aad9b4dbf0799729b8e19f,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1287726752596474421, guid: 817d196f23aad9b4dbf0799729b8e19f,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1287726752596474421, guid: 817d196f23aad9b4dbf0799729b8e19f,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1287726752596474421, guid: 817d196f23aad9b4dbf0799729b8e19f,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1287726752596474421, guid: 817d196f23aad9b4dbf0799729b8e19f,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1287726752596474421, guid: 817d196f23aad9b4dbf0799729b8e19f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1287726752596474421, guid: 817d196f23aad9b4dbf0799729b8e19f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1287726752596474421, guid: 817d196f23aad9b4dbf0799729b8e19f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2510259787324403232, guid: 817d196f23aad9b4dbf0799729b8e19f,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 3.84
+      objectReference: {fileID: 0}
+    - target: {fileID: 2510259787324403232, guid: 817d196f23aad9b4dbf0799729b8e19f,
+        type: 3}
+      propertyPath: m_Size.z
+      value: 2.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 2510259787324403232, guid: 817d196f23aad9b4dbf0799729b8e19f,
+        type: 3}
+      propertyPath: m_Center.z
+      value: -0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2715681808254104106, guid: 817d196f23aad9b4dbf0799729b8e19f,
+        type: 3}
+      propertyPath: m_Name
+      value: PickuppableWeapon Variant_Rifle
+      objectReference: {fileID: 0}
+    - target: {fileID: 4781066596135678026, guid: 817d196f23aad9b4dbf0799729b8e19f,
+        type: 3}
+      propertyPath: <Name>k__BackingField
+      value: Rifle
+      objectReference: {fileID: 0}
+    - target: {fileID: 4781066596135678026, guid: 817d196f23aad9b4dbf0799729b8e19f,
+        type: 3}
+      propertyPath: <GrabbableWeaponItem>k__BackingField
+      value: 
+      objectReference: {fileID: 446152725356267632, guid: 1391444e5b44ffb4e9f83f12d908540f,
+        type: 3}
+    - target: {fileID: 4827209587521660076, guid: 817d196f23aad9b4dbf0799729b8e19f,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: bfb6559c6c2b56646b8dc2eee1120166,
+        type: 3}
+    - target: {fileID: 4827209587521660076, guid: 817d196f23aad9b4dbf0799729b8e19f,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5603460651029971056, guid: 817d196f23aad9b4dbf0799729b8e19f,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.29
+      objectReference: {fileID: 0}
+    - target: {fileID: 5603460651029971056, guid: 817d196f23aad9b4dbf0799729b8e19f,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 7358685362193572680, guid: 817d196f23aad9b4dbf0799729b8e19f,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7358685362193572680, guid: 817d196f23aad9b4dbf0799729b8e19f,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7358685362193572680, guid: 817d196f23aad9b4dbf0799729b8e19f,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.3
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 8958221684181209093, guid: 817d196f23aad9b4dbf0799729b8e19f, type: 3}
+    - {fileID: 8261804447232086795, guid: 817d196f23aad9b4dbf0799729b8e19f, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 817d196f23aad9b4dbf0799729b8e19f, type: 3}

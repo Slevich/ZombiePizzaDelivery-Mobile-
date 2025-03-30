@@ -10,6 +10,7 @@ public class ImageFillnessListener : MonoBehaviour
     #region Fields
     [Header("UI Image to listen fillness."), SerializeField] private Image _listenedImage;
     [Header("Conditions and events on value changed."), SerializeField] private DependsOnFloatConditionAction[] _actions;
+    //[Header("Event with current and max fillness."), SerializeField] private UnityEvent<float, float> _onFillnessChange;
 
     private static readonly float _imageMaxFillness = 1f;
     private static readonly float _imageMinFillness = 0f;

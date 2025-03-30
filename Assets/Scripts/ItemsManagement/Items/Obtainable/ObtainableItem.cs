@@ -6,4 +6,5 @@ using System;
 public class ObtainableItem : ItemsBase
 {
     public Type ItemType { get; set; }
+    public Action<bool, Transform, Action> OnInteractWithTransform { get; set; }
 }

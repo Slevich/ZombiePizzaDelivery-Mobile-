@@ -12,6 +12,7 @@ public class ItemsObtainer : MonoBehaviour
             return;
         }
 
+        other.enabled = false;
         SelectObtainableItemBehaviour(obtainableItem);
     }
 
@@ -24,8 +25,37 @@ public class ItemsObtainer : MonoBehaviour
     private Action ChooseObtainableItemRecipient (ObtainableItem item) => typeof(ObtainableItem) switch
     {
         _ when item.ItemType == typeof(ObtainableWeapon) =>
-       delegate { PlayerReferencesContainer.Instance.HoldersManager.TryToGrabNewItem(item); },
+        delegate 
+        {
+            ItemHoldersManager holdersManager = PlayerReferencesContainer.Instance.HoldersManager;
+            bool positiveGrabResponse = holdersManager.RespondOnGrab(item);
+        
+            if(!positiveGrabResponse)
+            {
+                item.OnInteractWithTransform(false, null, null);
+            }
+            else
+            {
+                item.OnInteractWithTransform(true, transform, delegate { holdersManager.GrabNewItem(item); });
+            }
+        },
+        
+        _ when item.ItemType == typeof(SupplyItem) =>
+        delegate
+        {
+            SupplyManager supplyManager = PlayerReferencesContainer.Instance.SupplyManager;
+            bool supplyIsNeed = supplyManager.NeedRequest(item);
 
+            if (!supplyIsNeed)
+            {
+                item.OnInteractWithTransform(false, null, null);
+            }
+            else
+            {
+                item.OnInteractWithTransform(true, transform, delegate { supplyManager.DestributeSupply(item); });
+            }
+        },
+        
         var t => throw new NotSupportedException($"{t.Name} is not supported")
     };
 }
