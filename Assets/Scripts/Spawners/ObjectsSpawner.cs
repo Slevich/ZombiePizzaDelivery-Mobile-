@@ -15,7 +15,7 @@ public static class ObjectsSpawner
     private static Func<GameObject, Transform, GameObject> intoParentSpawnFunc = (prefab, parent)
         => Instantiate(prefab, parent);
 
-    private static Func<GameObject, Transform, bool, GameObject> intoParentSpawnFuncWithWorldSpaceParam = (prefab, parent, inWorldSpace)
+    private static Func<GameObject, Transform, bool, GameObject> intoParentSpawnFuncWithWorldSpaceParamFunc = (prefab, parent, inWorldSpace)
         => Instantiate(prefab, parent, inWorldSpace);
 
     private static Func<GameObject, Vector3, Quaternion, GameObject> spawnWithPositionAndRotationFunc = (prefab, position, rotation)
@@ -65,7 +65,7 @@ public static class ObjectsSpawner
     /// <param name="Components">Collection of monobehavior types (components).</param>
     /// <returns>Spawned new gameobject.</returns>
     public static GameObject SpawnIntoParentWorldSpace (GameObject Prefab, Transform Parent, bool InstantiateInWorldSpace, IEnumerable<Type> Components = null)
-        => ReturnSpawnedObject(intoParentSpawnFuncWithWorldSpaceParam(Prefab, Parent, InstantiateInWorldSpace), Components);
+        => ReturnSpawnedObject(intoParentSpawnFuncWithWorldSpaceParamFunc(Prefab, Parent, InstantiateInWorldSpace), Components);
 
     /// <summary>
     /// Spawn with setted position and rotation in world space, without parent, returns object.

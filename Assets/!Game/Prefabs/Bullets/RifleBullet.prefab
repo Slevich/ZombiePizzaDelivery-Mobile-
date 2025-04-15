@@ -58,11 +58,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2194242539874966059, guid: 2431ee878360bdf4f9806eb8b3490e23,
+        type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2327346100558234928, guid: 2431ee878360bdf4f9806eb8b3490e23,
         type: 3}
       propertyPath: m_Name
-      value: BulletBase
+      value: RifleBullet
       objectReference: {fileID: 0}
+    - target: {fileID: 3416448940484894573, guid: 2431ee878360bdf4f9806eb8b3490e23,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: ccb79852067963b469a191657ca02ba9, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

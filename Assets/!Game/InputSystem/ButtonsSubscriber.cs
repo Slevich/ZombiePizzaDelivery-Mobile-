@@ -11,10 +11,6 @@ public class ButtonsSubscriber : MonoBehaviour
     [SerializeField] private UnityEvent _onPressed;
     [SerializeField] private UnityEvent _onReleased;
 
-    private InputActionPhase _phase = InputActionPhase.Waiting;
-    private UnityEvent _activeEventToInvoke = null;
-    private InputAction _inputAction;
-    private bool _currentButtonPressingToggle = false;
     private bool _invokationPerformed = false;
 
     private void Start ()

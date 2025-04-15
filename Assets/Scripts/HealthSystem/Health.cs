@@ -8,7 +8,7 @@ public class Health : MonoBehaviour
 {
     #region Fields
     [Header("Max (start) health."), SerializeField, Range(1, 1000)] private int _maxHealth = 100;
-    [Header("Current health."), SerializeField] private int _currentHealth = 100;
+    [Header("Current health."), ReadOnly, SerializeField] private int _currentHealth = 100;
     [Header("Event on current health is 0."), SerializeField] private UnityEvent _onHealthOver;
     [Header("Event on current health changed."), SerializeField] private UnityEvent<float> _onHealthChangePercantage;
     [Header("OnDamage event."), SerializeField] private UnityEvent _onDamage;
@@ -27,6 +27,14 @@ public class Health : MonoBehaviour
         _currentHealth = _maxHealth;
         HealthPercentage = MathF.Round(_currentHealth / _maxHealth, 2);
     }
+
+#if UNITY_EDITOR
+    private void OnValidate ()
+    {
+        if(!Application.IsPlaying(this) && _currentHealth != _maxHealth)
+            _currentHealth = _maxHealth;
+    }
+#endif
 
     private void ChangeHealth(int FloatingSignValue)
     {

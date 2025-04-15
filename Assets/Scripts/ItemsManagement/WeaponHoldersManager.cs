@@ -6,11 +6,13 @@ using System.Drawing;
 using System.Linq;
 using static UnityEditor.Progress;
 
-public class ItemHoldersManager : MonoBehaviour
+public class WeaponHoldersManager : MonoBehaviour
 {
     #region Fields
     [Header("Start spawn points."), SerializeField] private HolderPoint[] _holders;
     [Header("Allowed item to grab."), SerializeField] private AllowedGrabbableItem[] _allowedItems;
+
+    public Action<GameObject[]> SpawnHeldObjectsCallback;
 
     private GameObject _currentWeapon = null;
     //[Header("Original prefab."), SerializeField] private GameObject _prefabOriginal;
@@ -65,13 +67,18 @@ public class ItemHoldersManager : MonoBehaviour
         Vector3 itemOffset = allowedItemsMatches.First().HolderOffset;
         Vector3 itemRotation = allowedItemsMatches.First().HolderRotation;
 
+        List<GameObject> spawnedObjects = new List<GameObject>();
+
         foreach(HolderPoint holder in _holders)
         {
             holder.DestroyChildren();
             GameObject spawnedObject = Instantiate(_currentWeapon, holder.PointTransform, false);
             spawnedObject.transform.localPosition = itemOffset;
             spawnedObject.transform.localEulerAngles = itemRotation;
+            spawnedObjects.Add(spawnedObject);
         }
+
+        SpawnHeldObjectsCallback(spawnedObjects.ToArray());
     }
 
     //public void SpawnObjectEachPoint()

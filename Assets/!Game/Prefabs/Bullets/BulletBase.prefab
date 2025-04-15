@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 5630550757981712397}
   - component: {fileID: 7804607692460566884}
   - component: {fileID: 1809931093797741800}
+  - component: {fileID: 2924993000123464067}
   m_Layer: 0
   m_Name: BulletBase
   m_TagString: Untagged
@@ -31,8 +32,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.39999986, y: 14.115, z: -16.459}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 5, y: 5, z: 5}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1980995619565207645}
   m_Father: {fileID: 0}
@@ -122,6 +123,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a0d35ca49aa05e429ef95a6f8307eec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <Speed>k__BackingField: 1
+--- !u!114 &2924993000123464067
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2327346100558234928}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63c4c47b1762df841941d54326d1f4dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <Damage>k__BackingField: 0
 --- !u!1 &7778779073246828922
 GameObject:
   m_ObjectHideFlags: 0

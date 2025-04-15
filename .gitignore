@@ -70,3 +70,8 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+Assets/Documents.meta
+Assets/Documents/Async.txt
+Assets/Documents/Async.txt.meta
+Assets/Documents/DoTweenTutorial.txt
+Assets/Documents/DoTweenTutorial.txt.meta

@@ -14,17 +14,26 @@ public class ObjectsLifetimeController : MonoBehaviour
 
     #region Properties
     public float ObjectLifetime { get; set; } = 1f;
+    public Action<IEnumerable<GameObject>> SendObjectToDestroy { get; set; }
     #endregion
 
     #region Constructors
-    public ObjectsLifetimeController ()
+    public ObjectsLifetimeController (float LifetimeUpdate, float ObjectsLifetime, List<GameObject> StartObservableObjects = null)
     {
         if (_objectsLifetimeInterval == null)
             _objectsLifetimeInterval = new ActionInterval();
+
+        _objectsLifetimeUpdateRate = LifetimeUpdate;
+
+        if(StartObservableObjects != null)
+            _observableObjects = StartObservableObjects;
+
+        ObjectLifetime = ObjectsLifetime;
     }
     #endregion
 
     #region Methods
+
     public void AddNewObservableObject(GameObject NewObservableObject)
     {
         _observableObjects.Add(NewObservableObject);
@@ -35,14 +44,20 @@ public class ObjectsLifetimeController : MonoBehaviour
         }
     }
 
-    private void ObjectsLifetimeTick ()
+    public void RemoveObservableObject(GameObject RemovedObject)
     {
-        float _intervalTime = 0f;
+        _observableObjects.Remove(RemovedObject);
 
+        if(_observableObjects.Count == 0 && _objectsLifetimeInterval.Busy)
+        {
+            _objectsLifetimeInterval.Stop();
+        }
+    }
+
+    private void ObjectsLifetimeTick()
+    {
         Action onInterval = delegate
         {
-            _intervalTime += _objectsLifetimeUpdateRate;
-
             if (_observableObjects.Count == 0)
             {
                 _objectsLifetimeInterval.Stop();
@@ -54,7 +69,7 @@ public class ObjectsLifetimeController : MonoBehaviour
 
             foreach (GameObject observableObject in _observableObjects)
             {
-                if(observableObject.IsDestroyed())
+                if(observableObject == null)
                 {
                     destroyedObjects.Add(observableObject);
                     continue;
@@ -69,17 +84,14 @@ public class ObjectsLifetimeController : MonoBehaviour
 
                 if (lifeTime.LifeTime >= ObjectLifetime)
                 {
-                    Destroy(observableObject);
                     destroyedObjects.Add(observableObject);
                 }
             }
 
-            if (destroyedObjects.Count == 0)
-                return;
-
-            foreach (GameObject destroyerObject in destroyedObjects)
+            if (destroyedObjects.Count > 0)
             {
-                _observableObjects.Remove(destroyerObject);
+                SendObjectToDestroy?.Invoke(destroyedObjects);
+                destroyedObjects.Clear();
             }
         };
 
@@ -94,10 +106,7 @@ public class ObjectsLifetimeController : MonoBehaviour
         if (_objectsLifetimeInterval.Busy)
             _objectsLifetimeInterval.Stop();
 
-        foreach (GameObject observableObject in _observableObjects)
-        {
-            Destroy(observableObject);
-        }
+        SendObjectToDestroy?.Invoke(_observableObjects);
 
         _observableObjects.Clear();
     }

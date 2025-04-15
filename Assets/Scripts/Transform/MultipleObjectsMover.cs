@@ -12,20 +12,18 @@ public class MultipleObjectsMover
     private float _objectsMovementUpdateRate = 0.01f;
     #endregion
 
-    #region Properties
-    public float Speed { get; set; } = 0.1f;
-    #endregion
-
     #region Constructor
-    public MultipleObjectsMover()
+    public MultipleObjectsMover(float ObjectMoveUpdate)
     {
         if(_objectsMovementInterval == null)
             _objectsMovementInterval = new ActionInterval();
+
+        _objectsMovementUpdateRate = ObjectMoveUpdate;
     }
     #endregion
 
     #region Methods
-    private void ObjectsMovementTick (Vector3 movementDirection, float speedModifier)
+    private void ObjectsMovementTick ()
     {
         Action onInterval = delegate
         {
@@ -49,11 +47,12 @@ public class MultipleObjectsMover
 
                 if (movingTransform.TryGetComponent<DirectiveMovement>(out DirectiveMovement directiveMovement))
                     movement = directiveMovement;
-                else
-                    movement = movingTransform.gameObject.AddComponent<DirectiveMovement>();
 
-                movement.LerpByDirection(movementDirection, speedModifier);
+                movement.LerpByDirection();
             }
+
+            if (destroyedTransforms.Count == 0)
+                return;
 
             foreach (Transform destroyedTransform in destroyedTransforms)
             {
@@ -64,14 +63,14 @@ public class MultipleObjectsMover
         _objectsMovementInterval.StartInterval(_objectsMovementUpdateRate, onInterval);
     }
 
-    public void AddNewMovingObject(Transform MovingTransform, Vector3 MovementDirection, float SpeedModifier)
+    public void AddNewMovingObject(Transform MovingTransform)
     {
         _movingTransforms.Add(MovingTransform);
 
         if (_objectsMovementInterval.Busy)
             return;
 
-        ObjectsMovementTick(MovementDirection, SpeedModifier);
+        ObjectsMovementTick();
     }
 
     public void StopMovement()

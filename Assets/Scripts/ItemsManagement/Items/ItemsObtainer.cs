@@ -27,7 +27,7 @@ public class ItemsObtainer : MonoBehaviour
         _ when item.ItemType == typeof(ObtainableWeapon) =>
         delegate 
         {
-            ItemHoldersManager holdersManager = PlayerReferencesContainer.Instance.HoldersManager;
+            WeaponHoldersManager holdersManager = PlayerReferencesContainer.Instance.HoldersManager;
             bool positiveGrabResponse = holdersManager.RespondOnGrab(item);
         
             if(!positiveGrabResponse)

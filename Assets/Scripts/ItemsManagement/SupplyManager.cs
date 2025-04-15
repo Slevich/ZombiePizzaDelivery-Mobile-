@@ -9,7 +9,7 @@ using static UnityEditor.Progress;
 public class SupplyManager : MonoBehaviour
 {
     #region Fields
-    private Health _playersHealth;
+    private Health _playerHealth;
     #endregion
 
     #region Properties
@@ -17,7 +17,7 @@ public class SupplyManager : MonoBehaviour
 
     private void Awake ()
     {
-        _playersHealth = PlayerReferencesContainer.Instance.PlayerHealth;
+        _playerHealth = PlayerReferencesContainer.Instance.PlayerHealth;
     }
 
     public bool NeedRequest(ObtainableItem Item)
@@ -29,7 +29,7 @@ public class SupplyManager : MonoBehaviour
 
         return typeof(SupplyType) switch
         {
-            _ when supplyItem.SupplyType == SupplyType.Health => _playersHealth.RespondOnHeal(),
+            _ when supplyItem.SupplyType == SupplyType.Health => _playerHealth.RespondOnHeal(),
 
             var t => throw new NotSupportedException($"{t.Name} is not supported")
         };
@@ -45,6 +45,7 @@ public class SupplyManager : MonoBehaviour
         switch(supplyItem.SupplyType)
         {
             case SupplyType.Health:
+                _playerHealth.Heal(supplyItem.Value);
                 break;
 
             case SupplyType.Ammo:

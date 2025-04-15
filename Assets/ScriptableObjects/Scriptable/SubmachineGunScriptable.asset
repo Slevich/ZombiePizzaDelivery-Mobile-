@@ -10,13 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: db5434165063d254d89b8f5a0ef8b236, type: 3}
-  m_Name: RifleScriptable
+  m_Name: SubmachineGunScriptable
   m_EditorClassIdentifier: 
-  <Name>k__BackingField: Rifle
-  <Bullet>k__BackingField: {fileID: 4996374726655696178, guid: bb9934357eacfdb47aaf443e7135216a,
+  <Name>k__BackingField: SubmachineGun
+  <Bullet>k__BackingField: {fileID: 8956564233940426421, guid: 5fabb5bf405110947aaa848a3cb901d7,
     type: 3}
-  <BulletSpeed>k__BackingField: 1
-  <Damage>k__BackingField: 25
+  <Damage>k__BackingField: 10
   <Mode>k__BackingField: 1
-  <FireRate>k__BackingField: 300
+  <FireRate>k__BackingField: 900
   <ShootSound>k__BackingField: {fileID: 0}

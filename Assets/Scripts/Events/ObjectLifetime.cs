@@ -8,6 +8,7 @@ public class ObjectLifetime : MonoBehaviour
 
     public void IncreaseLifetime(float plusLifetime)
     {
+
         if(plusLifetime <= 0)
         {
             Debug.Log("Lifetime cannot increase by zero or negative value!");
