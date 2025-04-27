@@ -64,7 +64,7 @@ public class ObservableObjectsStorage : MonoBehaviour
             count = i;
         }
 
-        Debug.Log("Удалено: " + count);
+        //Debug.Log("Удалено: " + count);
     }
 
     private void RemovingObjectsCollectionChanged (object? sender, NotifyCollectionChangedEventArgs args)

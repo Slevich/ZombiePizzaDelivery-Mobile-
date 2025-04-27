@@ -71,7 +71,7 @@ public class RotationAnimationsSequences : MonoBehaviour
 
     private void OnDisable ()
     {
-        if (_isPlaying)
+        if (_currentSequence != null && _isPlaying)
             _currentSequence.Kill();
 
         if (!_moverIsNull)

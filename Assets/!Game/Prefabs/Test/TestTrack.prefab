@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _anchor: {fileID: 0}
-  _offset: {x: 0.28, y: -40.63, z: 57.7}
+  _offset: {x: 0, y: -25.55, z: 44.8}
 --- !u!1 &5005300582878498102
 GameObject:
   m_ObjectHideFlags: 0

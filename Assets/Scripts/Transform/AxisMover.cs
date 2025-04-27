@@ -248,7 +248,7 @@ public class AxisMover : MonoBehaviour
     {
         ResetSubstepTokenSource();
 
-        if (!_actionInterval.Busy)
+        if (_actionInterval != null && !_actionInterval.Busy)
             _actionInterval.StartInterval(_fixedDeltaTime, _onInterval);
     }
     #endregion
