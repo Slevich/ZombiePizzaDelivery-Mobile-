@@ -15,7 +15,9 @@ MonoBehaviour:
   <Name>k__BackingField: SubmachineGun
   <Bullet>k__BackingField: {fileID: 8956564233940426421, guid: 5fabb5bf405110947aaa848a3cb901d7,
     type: 3}
-  <Damage>k__BackingField: 10
+  <BulletSpeed>k__BackingField: 1
+  <Damage>k__BackingField: 5
   <Mode>k__BackingField: 1
-  <FireRate>k__BackingField: 900
-  <ShootSound>k__BackingField: {fileID: 0}
+  <FireRate>k__BackingField: 650
+  <ShootSound>k__BackingField: {fileID: 8300000, guid: 6f41b1a850857f04790b0b590508b04d,
+    type: 3}

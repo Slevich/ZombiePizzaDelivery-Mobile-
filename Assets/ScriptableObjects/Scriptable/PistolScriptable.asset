@@ -18,5 +18,6 @@ MonoBehaviour:
   <BulletSpeed>k__BackingField: 1.5
   <Damage>k__BackingField: 15
   <Mode>k__BackingField: 0
-  <FireRate>k__BackingField: 20
-  <ShootSound>k__BackingField: {fileID: 0}
+  <FireRate>k__BackingField: 1
+  <ShootSound>k__BackingField: {fileID: 8300000, guid: da26c69adf96b4241bd2f4d963de07c8,
+    type: 3}

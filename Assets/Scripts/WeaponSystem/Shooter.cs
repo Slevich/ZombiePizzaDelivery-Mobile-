@@ -3,18 +3,20 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Shooter : MonoBehaviour
 {
     #region Fields
     [Header("Weapon holder."), SerializeField] private WeaponHoldersManager _holder;
     [Header("Spawned bullet parent storage."), SerializeField] private ObservableObjectsStorage _storage;
+    [Header("Event on single shot."), SerializeField] private UnityEvent _additionalOnShot;
 
     private bool _shootingInProcess = false;
     private List<ShotInfo> _shotInfos = new List<ShotInfo>();
     private ActionInterval _currentInterval;
 
-    private static readonly Action<ShotInfo, ObservableObjectsStorage> _actionOnShot = (shot, storage) =>
+    private static readonly Action<ShotInfo, ObservableObjectsStorage> _onShotInterval = (shot, storage) =>
     {
         Vector3 shotDirection = shot.FirePoint.ReturnWorldAxisDirection();
         GameObject bulletPrefab = shot.WeaponInfo.Info.Bullet;
@@ -29,6 +31,7 @@ public class Shooter : MonoBehaviour
         movement.Speed = shot.WeaponInfo.Info.BulletSpeed;
         shot.WeaponInfo.OnShot?.Invoke();
         storage.AddObjectToStorage(bulletClone, true);
+        Debug.Log("FIRE!");
     };
     #endregion
 
@@ -56,8 +59,6 @@ public class Shooter : MonoBehaviour
         {
             GetShotInfoFromWeaponObject(weapon);
         }
-
-        Debug.Log($"У нас {_shotInfos.Count} информации о выстрелах!");
     }
 
     private void GetShotInfoFromWeaponObject(GameObject Weapon)
@@ -95,8 +96,10 @@ public class Shooter : MonoBehaviour
 
         foreach (ShotInfo shot in _shotInfos)
         {
-            firingAction += delegate { _actionOnShot?.Invoke(shot, _storage); } ;
+            firingAction += delegate { _onShotInterval?.Invoke(shot, _storage); } ;
         }
+
+        firingAction += delegate { _additionalOnShot?.Invoke(); };
 
         FiringMode mode = (FiringMode)_shotInfos.Select(info => info.WeaponInfo.Info.Mode).FirstOrDefault();
 
@@ -107,13 +110,14 @@ public class Shooter : MonoBehaviour
                 break;
 
             case FiringMode.Auto:
-                int fireRate = (int)_shotInfos.Select(info => info.WeaponInfo.Info.FireRate).FirstOrDefault();
-                int fireRatePerSecond = fireRate / 60;
-                float secondsBetweenShots = 1 / fireRatePerSecond;
+                float fireRate = (int)_shotInfos.Select(info => info.WeaponInfo.Info.FireRate).FirstOrDefault();
+                float fireRatePerSecond = (float)fireRate / 60f;
+                float secondsBetweenShots = 1f / fireRatePerSecond;
 
                 if (_currentInterval == null)
                     _currentInterval = new ActionInterval();
 
+                firingAction?.Invoke();
                 _currentInterval.StartInterval(secondsBetweenShots, firingAction);
                 break;
         }

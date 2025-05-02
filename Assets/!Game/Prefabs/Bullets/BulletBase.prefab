@@ -32,7 +32,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.39999986, y: 14.115, z: -16.459}
-  m_LocalScale: {x: 5, y: 5, z: 5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1980995619565207645}
@@ -149,7 +149,7 @@ GameObject:
   - component: {fileID: 6412794539956262276}
   - component: {fileID: 3416448940484894573}
   m_Layer: 0
-  m_Name: Capsule
+  m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -198,7 +198,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 484166c40ff96fe46b83a1390e17483f, type: 2}
+  - {fileID: 2100000, guid: d08597b7dd496b548bbf8d0448ccb8ba, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

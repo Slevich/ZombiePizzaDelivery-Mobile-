@@ -987,6 +987,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1920534655387292554, guid: 461c36190e15ef5469542fbe61a3d457,
+        type: 3}
+      propertyPath: InitialModule.startSizeY.minMaxState
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1920534655387292554, guid: 461c36190e15ef5469542fbe61a3d457,
+        type: 3}
+      propertyPath: InitialModule.startSizeZ.minMaxState
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 3000417719366091349, guid: 461c36190e15ef5469542fbe61a3d457,
         type: 3}
       propertyPath: <Info>k__BackingField
@@ -1081,7 +1091,7 @@ PrefabInstance:
     - target: {fileID: 6174661640295758206, guid: 461c36190e15ef5469542fbe61a3d457,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.254
+      value: 0.217
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
