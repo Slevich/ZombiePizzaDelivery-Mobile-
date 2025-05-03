@@ -29,7 +29,7 @@ public class SupplyManager : MonoBehaviour
 
         return typeof(SupplyType) switch
         {
-            _ when supplyItem.SupplyType == SupplyType.Health => _playerHealth.RespondOnHeal(),
+            _ when supplyItem.SupplyType == SupplyType.Health => _playerHealth.RequestToHeal(),
 
             var t => throw new NotSupportedException($"{t.Name} is not supported")
         };

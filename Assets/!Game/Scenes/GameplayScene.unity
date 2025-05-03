@@ -4752,6 +4752,7 @@ Transform:
   - {fileID: 1618328606}
   - {fileID: 1340601082}
   - {fileID: 1189929849}
+  - {fileID: 986027453}
   - {fileID: 1292742544}
   m_Father: {fileID: 234624977}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5083,6 +5084,50 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 254639688}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &986027452
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 986027453}
+  - component: {fileID: 986027454}
+  m_Layer: 0
+  m_Name: DamageManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &986027453
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 986027452}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 825689863}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &986027454
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 986027452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 129909bcbd72e53429051d5aaed1b2a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &992705709
 GameObject:
   m_ObjectHideFlags: 0
@@ -5746,6 +5791,8 @@ MonoBehaviour:
   <HoldersManager>k__BackingField: {fileID: 1614111579}
   <PlayerHealth>k__BackingField: {fileID: 1618328608}
   <SupplyManager>k__BackingField: {fileID: 1340601083}
+  <Shooter>k__BackingField: {fileID: 1189929850}
+  <DamageManager>k__BackingField: {fileID: 986027454}
 --- !u!4 &1329737181 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3633683383305479961, guid: 736dde11c46b634438395a9f673f3108,
@@ -6066,7 +6113,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1618328608}
         m_TargetAssemblyTypeName: Health, Assembly-CSharp
-        m_MethodName: Damage
+        m_MethodName: CauseDamage
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6088,12 +6135,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c26988be9cce7f14d8c029f103813cf1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxHealth: 100
-  _currentHealth: 100
-  _onHealthOver:
+  <Tag>k__BackingField: 1
+  <HealthInfo>k__BackingField:
+    _maxHealth: 100
+    _currentHealth: 100
+  <OnHealthIsOver>k__BackingField:
     m_PersistentCalls:
       m_Calls: []
-  _onHealthChangePercantage:
+  <OnHealthIsMax>k__BackingField:
+    m_PersistentCalls:
+      m_Calls: []
+  <OnHealthPercentageChanged>k__BackingField:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 334039727}
@@ -6108,22 +6160,10 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  _onDamage:
+  <OnCauseDamage>k__BackingField:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2146102906}
-        m_TargetAssemblyTypeName: UnityEngine.Animator, UnityEngine
-        m_MethodName: SetTrigger
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: Shake
-          m_BoolArgument: 0
-        m_CallState: 2
-  _onHeal:
+      m_Calls: []
+  <OnHeal>k__BackingField:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &1710724734
@@ -6284,6 +6324,7 @@ GameObject:
   - component: {fileID: 1965275396}
   - component: {fileID: 1965275395}
   - component: {fileID: 1965275394}
+  - component: {fileID: 1965275397}
   m_Layer: 0
   m_Name: MeshAndCollider
   m_TagString: Untagged
@@ -6377,6 +6418,49 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1965275392}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1965275397
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1965275392}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c26988be9cce7f14d8c029f103813cf1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <Tag>k__BackingField: 2
+  <HealthInfo>k__BackingField:
+    _maxHealth: 250
+    _currentHealth: 250
+  <OnHealthIsOver>k__BackingField:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1965275395}
+        m_TargetAssemblyTypeName: UnityEngine.Renderer, UnityEngine
+        m_MethodName: set_enabled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  <OnHealthIsMax>k__BackingField:
+    m_PersistentCalls:
+      m_Calls: []
+  <OnHealthPercentageChanged>k__BackingField:
+    m_PersistentCalls:
+      m_Calls: []
+  <OnCauseDamage>k__BackingField:
+    m_PersistentCalls:
+      m_Calls: []
+  <OnHeal>k__BackingField:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &2051247997
 GameObject:
   m_ObjectHideFlags: 0

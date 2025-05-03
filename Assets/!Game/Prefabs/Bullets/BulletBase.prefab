@@ -60,7 +60,7 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 112
@@ -133,9 +133,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 2327346100558234928}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 63c4c47b1762df841941d54326d1f4dc, type: 3}
+  m_Script: {fileID: 11500000, guid: efa70ebfe67d20148a7de1025383cab9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Parent: {fileID: 2194242539874966059}
   <Damage>k__BackingField: 0
 --- !u!1 &7778779073246828922
 GameObject:

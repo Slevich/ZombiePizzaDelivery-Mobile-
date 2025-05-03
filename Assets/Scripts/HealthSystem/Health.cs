@@ -4,75 +4,60 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class Health : MonoBehaviour
+public class Health : MonoBehaviour, IDamageable
 {
     #region Fields
-    [Header("Max (start) health."), SerializeField, Range(1, 1000)] private int _maxHealth = 100;
-    [Header("Current health."), ReadOnly, SerializeField] private int _currentHealth = 100;
-    [Header("Event on current health is 0."), SerializeField] private UnityEvent _onHealthOver;
-    [Header("Event on current health changed."), SerializeField] private UnityEvent<float> _onHealthChangePercantage;
-    [Header("OnDamage event."), SerializeField] private UnityEvent _onDamage;
-    [Header("OnHeal event."), SerializeField] private UnityEvent _onHeal;
+    [field: Header("Tag of the damageable objects."), SerializeField] public HealthTags Tag { get; set; } = HealthTags.Damageable;
+    [field: Header("Health stats info."), SerializeField] public HealthState HealthInfo { get; set; }
+    [field: Header("Event on current health is 0."), SerializeField] public UnityEvent OnHealthIsOver { get; set; }
+    [field: Header("Event on current health is equal max value."), SerializeField] public UnityEvent OnHealthIsMax { get; set; }
+    [field: Header("Event on current health changed percentage."), SerializeField] public UnityEvent<float> OnHealthPercentageChanged { get; set; }
+    [field: Header("Event on causing damage."), SerializeField] public UnityEvent OnCauseDamage { get; set; }
+    [field: Header("Event on healing."), SerializeField] public UnityEvent OnHeal { get; set; }
     #endregion
 
     #region Properties
-    public float HealthPercentage { get; private set; } = 1f;
-    private bool _healthIsOver => _currentHealth == 0;
-    private bool _healthIsMax => _currentHealth == _maxHealth;
+    public float HealthPercentage => HealthInfo.Percentage;
+    private bool healthIsOver => HealthInfo.HealthIsOver;
+    private bool healthIsMax => HealthInfo.HealthIsMax;
     #endregion
 
     #region Methods
-    private void Awake ()
-    {
-        _currentHealth = _maxHealth;
-        HealthPercentage = MathF.Round(_currentHealth / _maxHealth, 2);
-    }
+    private void Awake () => HealthInfo.SetStartValues();
 
 #if UNITY_EDITOR
     private void OnValidate ()
     {
-        if(!Application.IsPlaying(this) && _currentHealth != _maxHealth)
-            _currentHealth = _maxHealth;
+        if(!Application.IsPlaying(this) && HealthInfo != null && !HealthInfo.HealthIsMax)
+            HealthInfo.EquateCurrentToMaxHealth();
     }
 #endif
-
-    private void ChangeHealth(int FloatingSignValue)
+    public void CauseDamage(int DamageValue)
     {
-        int newHealthValue = _currentHealth + FloatingSignValue;
-
-        if (newHealthValue < 0)
-            _currentHealth = 0;
-        else if(newHealthValue > _maxHealth)
-            _currentHealth = _maxHealth;
-        else
-            _currentHealth = newHealthValue;
-
-        float healthPercantageUnrounded = (float)_currentHealth / (float)_maxHealth;
-        HealthPercentage = MathF.Round(healthPercantageUnrounded, 2);
-        _onHealthChangePercantage?.Invoke(HealthPercentage);
-    }
-
-    public void Damage(int DamageValue)
-    {
-        if (_healthIsOver)
+        if (healthIsOver)
             return;
 
-        ChangeHealth(-DamageValue);
-        _onDamage?.Invoke();
+        DamageValue = Math.Abs(DamageValue);
+        HealthInfo.ChangeHealth(-DamageValue);
+        OnCauseDamage?.Invoke();
+        OnHealthPercentageChanged?.Invoke(HealthInfo.Percentage);
 
-        if (_healthIsOver)
-            _onHealthOver?.Invoke();
+        if (healthIsOver)
+            OnHealthIsOver?.Invoke();
     }
 
     public void Heal(int HealValue)
     {
-        if (_healthIsMax)
+        if (healthIsMax)
             return;
 
-        ChangeHealth(+HealValue);
-        _onHeal?.Invoke();
+        HealValue = Math.Abs(HealValue);
+        HealthInfo.ChangeHealth(+HealValue);
+        OnHeal?.Invoke();
+        OnHealthPercentageChanged?.Invoke(HealthInfo.Percentage);
     }
 
-    public bool RespondOnHeal () => !_healthIsMax;
+    public bool RequestToHeal () => !healthIsMax;
+    public bool RequestToDamage () => !healthIsOver;
     #endregion
 }

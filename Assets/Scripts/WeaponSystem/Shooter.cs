@@ -22,16 +22,21 @@ public class Shooter : MonoBehaviour
         GameObject bulletPrefab = shot.WeaponInfo.Info.Bullet;
         GameObject bulletClone = ObjectsSpawner.SpawnWithPositionRotation(bulletPrefab, shot.FirePoint.transform.position, Quaternion.identity);
 
-        DirectiveMovement movement = ComponentsSearcher.GetComponentFromObject<DirectiveMovement>(bulletClone);
+        DamageDealer bulletDamage = (DamageDealer)(ComponentsSearcher.GetComponentFromObject(bulletPrefab, typeof(DamageDealer)));
+        if(bulletDamage == null)
+            bulletDamage = bulletClone.AddComponent<DamageDealer>();
 
+        bulletDamage.Damage = shot.WeaponInfo.Info.Damage;
+
+        DirectiveMovement movement = ComponentsSearcher.GetComponentFromObject<DirectiveMovement>(bulletClone);
         if (movement == null)
             movement = bulletClone.AddComponent<DirectiveMovement>();
 
         movement.Direction = shotDirection;
         movement.Speed = shot.WeaponInfo.Info.BulletSpeed;
+
         shot.WeaponInfo.OnShot?.Invoke();
         storage.AddObjectToStorage(bulletClone, true);
-        Debug.Log("FIRE!");
     };
     #endregion
 
