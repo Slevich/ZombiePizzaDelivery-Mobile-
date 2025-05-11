@@ -46,5 +46,10 @@ public class ObjectLifetimeControllerInstance : MonoBehaviour, IObservableCollec
     }
 
     public void StopObserving() => _controller.DestroyAllObjects();
+
+    public void StopObservingOnObject(GameObject ObservableObject)
+    {
+        _controller.RemoveObservableObject(ObservableObject);
+    }
     #endregion
 }

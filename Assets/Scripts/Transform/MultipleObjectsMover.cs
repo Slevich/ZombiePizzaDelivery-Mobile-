@@ -66,11 +66,21 @@ public class MultipleObjectsMover
     public void AddNewMovingObject(Transform MovingTransform)
     {
         _movingTransforms.Add(MovingTransform);
+        IStopMovement stop = (IStopMovement)ComponentsSearcher.GetSingleComponentOfTypeFromObjectAndChildren(MovingTransform.gameObject, typeof(IStopMovement));
+
+        if (stop != null)
+            stop.OnStopMovement += delegate { RemoveMovingObject(MovingTransform); };
+
 
         if (_objectsMovementInterval.Busy)
             return;
 
         ObjectsMovementTick();
+    }
+
+    public void RemoveMovingObject(Transform MovingTransform)
+    {
+        _movingTransforms.Remove(MovingTransform);
     }
 
     public void StopMovement()

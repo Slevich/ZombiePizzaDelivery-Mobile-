@@ -37,6 +37,9 @@ public class Health : MonoBehaviour, IDamageable
         if (healthIsOver)
             return;
 
+        if (Tag == HealthTags.Immortal)
+            return;
+
         DamageValue = Math.Abs(DamageValue);
         HealthInfo.ChangeHealth(-DamageValue);
         OnCauseDamage?.Invoke();
@@ -51,13 +54,28 @@ public class Health : MonoBehaviour, IDamageable
         if (healthIsMax)
             return;
 
+        if (Tag == HealthTags.Immortal)
+            return;
+
         HealValue = Math.Abs(HealValue);
         HealthInfo.ChangeHealth(+HealValue);
         OnHeal?.Invoke();
         OnHealthPercentageChanged?.Invoke(HealthInfo.Percentage);
     }
 
-    public bool RequestToHeal () => !healthIsMax;
-    public bool RequestToDamage () => !healthIsOver;
+    public bool RequestToHeal ()
+    {
+        if (Tag == HealthTags.Immortal)
+            return false;
+
+        return !healthIsMax;
+    }
+    public bool RequestToDamage ()
+    {
+        if (Tag == HealthTags.Immortal)
+            return false;
+
+        return !healthIsOver;
+    }
     #endregion
 }

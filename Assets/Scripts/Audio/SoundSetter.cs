@@ -45,7 +45,7 @@ public class SoundSetter : MonoBehaviour
         }
 
         GameObject firstWeapon = weapons.First();
-        Component[] findingComponents = ComponentsSearcher.GetComponentsFromObjectAndAllChildren(firstWeapon, new[] { typeof(WeaponInfoContainer), typeof(DirectionPoint) });
+        Component[] findingComponents = ComponentsSearcher.GetComponentsOfTypesFromObjectAndAllChildren(firstWeapon, new[] { typeof(WeaponInfoContainer), typeof(DirectionPoint) });
         WeaponInfoContainer weaponInfo = findingComponents.Where(comp => comp.GetType() == typeof(WeaponInfoContainer)).FirstOrDefault() as WeaponInfoContainer;
         _currentClip = weaponInfo.Info.ShootSound;
         _audioSource.clip = _currentClip;

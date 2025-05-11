@@ -40,5 +40,10 @@ public class MultipleObjectsMoverInstance : MonoBehaviour, IObservableCollection
     }
 
     public void StopObserving() => _mover.StopMovement();
+
+    public void StopObservingOnObject(GameObject ObservingObject)
+    {
+        _mover.RemoveMovingObject(ObservingObject.transform);
+    }
     #endregion
 }

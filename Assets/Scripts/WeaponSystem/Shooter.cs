@@ -9,34 +9,48 @@ public class Shooter : MonoBehaviour
 {
     #region Fields
     [Header("Weapon holder."), SerializeField] private WeaponHoldersManager _holder;
-    [Header("Spawned bullet parent storage."), SerializeField] private ObservableObjectsStorage _storage;
+    [Header("Spawned bullet parent storage."), SerializeField] private ObservableObjectsStorage _bulletStorage;
+    [Header("Spawned objects on bullet destroy."), SerializeField] private ObservableObjectsStorage _stuffStorage;
     [Header("Event on single shot."), SerializeField] private UnityEvent _additionalOnShot;
 
     private bool _shootingInProcess = false;
     private List<ShotInfo> _shotInfos = new List<ShotInfo>();
     private ActionInterval _currentInterval;
 
-    private static readonly Action<ShotInfo, ObservableObjectsStorage> _onShotInterval = (shot, storage) =>
+    private static readonly Action<ShotInfo, ObservableObjectsStorage, ObservableObjectsStorage> _onShotInterval = (shot, bulletStorage, stuffStorage) =>
     {
         Vector3 shotDirection = shot.FirePoint.ReturnWorldAxisDirection();
         GameObject bulletPrefab = shot.WeaponInfo.Info.Bullet;
         GameObject bulletClone = ObjectsSpawner.SpawnWithPositionRotation(bulletPrefab, shot.FirePoint.transform.position, Quaternion.identity);
 
-        DamageDealer bulletDamage = (DamageDealer)(ComponentsSearcher.GetComponentFromObject(bulletPrefab, typeof(DamageDealer)));
+        TriggerDamageDealer bulletDamage = (TriggerDamageDealer)(ComponentsSearcher.GetSingleComponentOfTypeFromObjectAndChildren(bulletClone, typeof(TriggerDamageDealer)));
         if(bulletDamage == null)
-            bulletDamage = bulletClone.AddComponent<DamageDealer>();
+            bulletDamage = bulletClone.AddComponent<TriggerDamageDealer>();
 
         bulletDamage.Damage = shot.WeaponInfo.Info.Damage;
+        bulletDamage.OnCollideDamageable += (pos) =>
+        {
+            foreach (GameObject objectOnBulletDestroy in bulletDamage.ObjectToSpawnOnDestroy)
+            {
+                Debug.Log("Spawn!");
+                GameObject bulletStuff = ObjectsSpawner.SpawnWithPositionRotation(objectOnBulletDestroy, pos, Quaternion.identity);
+                stuffStorage.AddObjectToStorageWithParenting(bulletStuff);
+            }
+        };
 
-        DirectiveMovement movement = ComponentsSearcher.GetComponentFromObject<DirectiveMovement>(bulletClone);
+        DirectiveMovement movement = (DirectiveMovement)(ComponentsSearcher.GetSingleComponentOfTypeFromObjectAndChildren(bulletClone, typeof(DirectiveMovement)));
         if (movement == null)
             movement = bulletClone.AddComponent<DirectiveMovement>();
 
         movement.Direction = shotDirection;
         movement.Speed = shot.WeaponInfo.Info.BulletSpeed;
 
+        OnObjectDestroy onDestroy = (OnObjectDestroy)(ComponentsSearcher.GetSingleComponentOfTypeFromObjectAndChildren(bulletClone, typeof(OnObjectDestroy)));
+        if (onDestroy == null)
+            onDestroy = bulletClone.AddComponent<OnObjectDestroy>();
+
+        bulletStorage.AddObjectToStorageWithParenting(bulletClone);
         shot.WeaponInfo.OnShot?.Invoke();
-        storage.AddObjectToStorage(bulletClone, true);
     };
     #endregion
 
@@ -68,7 +82,7 @@ public class Shooter : MonoBehaviour
 
     private void GetShotInfoFromWeaponObject(GameObject Weapon)
     {
-        Component[] findingComponents = ComponentsSearcher.GetComponentsFromObjectAndAllChildren(Weapon, new[] { typeof(WeaponInfoContainer), typeof(DirectionPoint)  } );
+        Component[] findingComponents = ComponentsSearcher.GetComponentsOfTypesFromObjectAndAllChildren(Weapon, new[] { typeof(WeaponInfoContainer), typeof(DirectionPoint)  } );
 
         WeaponInfoContainer weaponInfo = findingComponents.Where(comp => comp.GetType() == typeof(WeaponInfoContainer)).FirstOrDefault() as WeaponInfoContainer;
 
@@ -101,7 +115,7 @@ public class Shooter : MonoBehaviour
 
         foreach (ShotInfo shot in _shotInfos)
         {
-            firingAction += delegate { _onShotInterval?.Invoke(shot, _storage); } ;
+            firingAction += delegate { _onShotInterval?.Invoke(shot, _bulletStorage, _stuffStorage); } ;
         }
 
         firingAction += delegate { _additionalOnShot?.Invoke(); };

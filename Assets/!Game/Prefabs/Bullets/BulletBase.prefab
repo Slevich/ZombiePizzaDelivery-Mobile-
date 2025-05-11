@@ -62,7 +62,7 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 0
   m_IsKinematic: 1
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 112
   m_CollisionDetection: 2
 --- !u!65 &8978343726971884142
@@ -84,8 +84,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.16, y: 0.16, z: 0.31}
-  m_Center: {x: 0, y: 0.005, z: 0}
+  m_Size: {x: 0.16, y: 0.16, z: 3}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &5630550757981712397
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -133,11 +133,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 2327346100558234928}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: efa70ebfe67d20148a7de1025383cab9, type: 3}
+  m_Script: {fileID: 11500000, guid: bce9ead405fe98e4a90fe7df79255fda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Parent: {fileID: 2194242539874966059}
   <Damage>k__BackingField: 0
+  <ObjectToSpawnOnDestroy>k__BackingField:
+  - {fileID: 6780519577583241023, guid: 67a9283b169310c4eab6a461bf55824d, type: 3}
 --- !u!1 &7778779073246828922
 GameObject:
   m_ObjectHideFlags: 0

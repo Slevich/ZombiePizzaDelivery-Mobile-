@@ -33,7 +33,11 @@ public class DamageManager : MonoBehaviour
                 break;
 
             DamageData data = _currentDatas.Dequeue();
-            data.Target.CauseDamage(data.Amount);
+            IDamageable damageTarget = data.Target;
+
+            if(damageTarget.RequestToDamage())
+                data.Target.CauseDamage(data.Amount);
+
             Destroy(data.Source.Parent.gameObject);
         }
 

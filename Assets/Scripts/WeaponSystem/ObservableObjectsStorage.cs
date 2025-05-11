@@ -14,7 +14,7 @@ public class ObservableObjectsStorage : MonoBehaviour
 {
     #region Fields
     [Header("Time update in seconds to check objects on remove."), SerializeField] private float _removeObjectsUpdate = 0.1f;
-    [Header("Destroyed objects per frame."), Range(0, 200), SerializeField] private int _destroyedCountPerFrame = 80;
+    [Header("Destroyed objects per frame."), Range(0, 200), SerializeField] private int _destroyedObjectsPerCall = 80;
 
     private IObservableCollectionChanged[] _observers = new IObservableCollectionChanged[] { };
     private ObservableCollection<GameObject> _objectsInStorage = new ObservableCollection<GameObject>();
@@ -56,7 +56,7 @@ public class ObservableObjectsStorage : MonoBehaviour
 
         int count = 0;
 
-        for (int i = 0; i < _objectsToRemove.Count && i < _destroyedCountPerFrame; i++)
+        for (int i = 0; i < _objectsToRemove.Count && i < _destroyedObjectsPerCall; i++)
         {
             GameObject destroyedObject = _objectsToRemove[i];
             _objectsToRemove.RemoveAt(i);
@@ -108,7 +108,7 @@ public class ObservableObjectsStorage : MonoBehaviour
         AddObjectToStorage(spawnedObject);
     }
 
-    public void AddObjectToStorage(GameObject NewObservableObject, bool SetAsParent = false)
+    private void AddObjectToStorage(GameObject NewObservableObject, bool SetAsParent = false)
     {
         if(SetAsParent)
             NewObservableObject.transform.SetParent(transform);
@@ -123,7 +123,11 @@ public class ObservableObjectsStorage : MonoBehaviour
         _objectsInStorage.Add(NewObservableObject);
 
         onObjectDestroy.OnDestroyCallback += delegate { _objectsToRemove.Add(NewObservableObject); };
+
     }
+
+    public void AddObjectToStorageWithParenting (GameObject NewObservableObject) => AddObjectToStorage(NewObservableObject, true);
+    public void AddObjectToStorageWithoutParenting (GameObject NewObservableObject) => AddObjectToStorage(NewObservableObject);
 
     public void DestroyObjectFromStorage(GameObject DestroyableObject)
     {

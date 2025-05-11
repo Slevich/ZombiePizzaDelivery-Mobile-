@@ -73,10 +73,18 @@ public static class ComponentsSearcher
     /// <param name="ParentComponentHolder">Parent GameObject to search components.</param>
     /// <param name="SearchingTypes">Types of components.</param>
     /// <returns>Array of founding components.</returns>
-    public static Component[] GetComponentsFromObjectAndAllChildren(GameObject ParentComponentHolder, Type[] SearchingTypes)
+    public static Component[] GetComponentsOfTypesFromObjectAndAllChildren(GameObject ParentComponentHolder, Type[] SearchingTypes)
     {
         return GetComponentsInChildrenRecursively(ParentComponentHolder, SearchingTypes);
     }
+
+    public static Component[] GetComponentsOfTypeFromObjectAndAllChildren (GameObject ParentComponentHolder, Type SearchingType)
+    {
+        return GetComponentsInChildrenRecursively(ParentComponentHolder, new Type[1] { SearchingType });
+    }
+
+    public static Component GetSingleComponentOfTypeFromObjectAndChildren(GameObject ParentComponentHolder, Type SearchingType) 
+        => GetComponentsOfTypeFromObjectAndAllChildren(ParentComponentHolder, SearchingType).First();
 
     private static Component[] GetComponentsInChildrenRecursively (GameObject ParentComponentHolder, Type[] searchingTypes)
     {
